@@ -20,8 +20,8 @@ class i3::install {
     exec { 'i3-gaps-make-make_install':
       cwd       => $::i3::repo_location,
       command   => 'make && sudo make install',
-      user      => $::user,
-      group     => $::group,
+      user      => $::i3::user,
+      group     => $::i3::group,
       logoutput => true,
     }
   }

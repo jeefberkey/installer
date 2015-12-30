@@ -10,6 +10,11 @@ Exec {
   ],
 }
 
+File {
+  owner => 'nick',
+  group => 'nick',
+}
+
 $packages = [
   #base
   'tmux','network-manager-applet','feh','xdotool','lxinput','lxappearance','gtk-murrine-engine','w3m-img','golang','gimp','xbacklight',
@@ -33,7 +38,10 @@ $packages = [
   'dbus-glib-devel', 'libXScrnSaver-devel', 'libnotify-devel', 'libxdg-basedir-devel',
 ]
 
-$storage_dir = '/home/nick/config'
+$user        = 'nick'
+$group       = 'group'
+$homedir     = "/home/$user"
+$storage_dir = "/home/$user/config"
 
 package { $packages:
   ensure   => latest,
@@ -58,6 +66,9 @@ class { '::git':
 class { '::i3':
   gaps          => true,
   branch        => 'gaps-next',
+  user          => $user,
+  group         => $group,
+  homedir       => $homedir,
   repo_location => "$storage_dir/i3-gaps",
 }
 

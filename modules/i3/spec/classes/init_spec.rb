@@ -2,6 +2,8 @@ require 'spec_helper'
 describe 'i3' do
 
   context 'with defaults for all parameters' do
-    it { should contain_class('i3') }
+    let(:params) {{ }}
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.to create_class('i3') }
   end
 end

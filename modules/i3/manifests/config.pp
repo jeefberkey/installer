@@ -1,4 +1,7 @@
 # configure i3
 class i3::config {
-  notify{'configure i3':}
+  file { "$::homedir/.config/i3/config":
+    ensure  => present,
+    content => 'puppet:///modules/i3/config',
+  }
 }
