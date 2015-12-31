@@ -10,7 +10,7 @@ class yadm::clone (
 
   exec { 'clone-yadm-repo':
     cwd      => $homedir,
-    command  => "HOME=$homedir yadm clone $repo -f",
+    command  => "HOME=$homedir yadm clone $repo -f ; yadm ls-files --deleted | xargs yadm checkout -- | true",
     creates  => "$homedir/.yadm/repo.git",
     user     => $user,
     group    => $group,

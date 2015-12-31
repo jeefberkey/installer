@@ -25,7 +25,7 @@ Package {
 
 $packages = [
   #base
-  'tmux','network-manager-applet','feh','lxinput','lxappearance','gtk-murrine-engine','golang','xbacklight',
+  'zsh','tmux','network-manager-applet','feh','lxinput','lxappearance','gtk-murrine-engine','golang','xbacklight',
 
   #lighter display maanger
   'lightdm','lightdm-gtk-greeter-settings',
@@ -44,7 +44,8 @@ user { $user:
   ensure  => present,
   comment => 'Nick Miller',
   home    => "/home/$user",
-  # shell => '/bin/bash',
+  shell   => '/bin/zsh',
+  require => Package['zsh'],
 }
 file { "/home/$user":
   ensure => directory,
@@ -63,6 +64,17 @@ class { '::yadm::clone':
   homedir => $homedir,
   repo    => 'https://github.com/jeefberkey/dotfiles.git',
 }
+->
+class { '::i3':
+  gaps    => true,
+  branch  => 'gaps-next',
+  user    => $user,
+  group   => $group,
+  homedir => $homedir,
+  # working_dir => $storage_dir,
+  require => Class['::yadm::clone'],
+}
+
 
 # # installs git and sets up my basic --global config options
 # class { '::git':
@@ -71,21 +83,7 @@ class { '::yadm::clone':
 #   email           => 'nick.miller@onyxpoint.com',
 # }
 
-file { "$homedir/.config":
-  ensure => directory,
-  owner  => $user,
-  group  => $group,
-}
-
-class { '::i3':
-  gaps        => true,
-  branch      => 'gaps-next',
-  user        => $user,
-  group       => $group,
-  homedir     => $homedir,
-  # working_dir => $storage_dir,
-}
-
+#rvm @global do gem install bundler
 #rvm::system_user { 'nick': }
 #rvm_system_ruby {
 #  'ruby-1.9':
