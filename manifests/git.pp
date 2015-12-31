@@ -5,7 +5,7 @@ class git (
   $email = undef,
 ) {
 
-  package { [ 'git','git-review','gitg','meld' ]: ensure => latest, }
+  ensure_packages([ 'git','git-review','gitg','meld' ])
 
   exec { 'git_config_credential_username':
     command => "git config --global credential.username ${remote_username}",

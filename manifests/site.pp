@@ -1,4 +1,10 @@
-# set the global exec path
+# global variables
+$user        = 'nick'
+$group       = 'nick'
+$homedir     = "/home/$user"
+$storage_dir = "/home/$user/config"
+
+# set some global resource settings
 Exec {
   path => [
     '/usr/local/bin',
@@ -9,28 +15,24 @@ Exec {
     '/sbin',
   ],
 }
-
 File {
-  owner => 'nick',
-  group => 'nick',
+  owner => $user,
+  group => $group,
+}
+Package {
+  provider => 'dnf',
 }
 
 $packages = [
   #base
-  'tmux','network-manager-applet','feh','xdotool','lxinput','lxappearance','gtk-murrine-engine','w3m-img','golang','gimp','xbacklight',
-
-  #vbox
-  'binutils','gcc','make','patch','libgomp','glibc-headers','glibc-devel','kernel-headers','kernel-devel','dkms',
+  'tmux','network-manager-applet','feh','lxinput','lxappearance','gtk-murrine-engine','golang','xbacklight',
 
   #lighter display maanger
   'lightdm','lightdm-gtk-greeter-settings',
   'gtk-doc','gobject-introspection-devel','dbus-python','python-simplejson',
   'gnome-keyring-pam','libgnome-keyring-devel','gnome-tweak-tool',
 
-  #i3blocks
-  'python-imaging','lm_sensors','acpi','sysstat',
-
-  'cmake','rubygem-ronn',
+  'cmake',
 
   #rofi
   'autoconf','automake','libXft-devel','glib2-devel','libX11-devel',
@@ -38,38 +40,50 @@ $packages = [
   'dbus-glib-devel', 'libXScrnSaver-devel', 'libnotify-devel', 'libxdg-basedir-devel',
 ]
 
-$user        = 'nick'
-$group       = 'group'
-$homedir     = "/home/$user"
-$storage_dir = "/home/$user/config"
+user { $user:
+  ensure  => present,
+  comment => 'Nick Miller',
+  home    => "/home/$user",
+  # shell => '/bin/bash',
+}
+file { "/home/$user":
+  ensure => directory,
+}
 
 package { $packages:
   ensure   => latest,
-  provider => 'dnf',
 }
 
 # install yadm, my tool of choice for configuration management
 # also clone my config repo from github using yadm
 include '::yadm'
 class { '::yadm::clone':
-  repo => 'https://github.com/jeefberkey/dotfiles.git',
-  dest => $storage_dir,
+  user    => $user,
+  group   => $group,
+  homedir => $homedir,
+  repo    => 'https://github.com/jeefberkey/dotfiles.git',
 }
 
-# installs git and sets up my basic --global config options
-class { '::git':
-  remote_username => 'jeefberkey',
-  username        => 'Nick Miller',
-  email           => 'nick.miller@onyxpoint.com',
+# # installs git and sets up my basic --global config options
+# class { '::git':
+#   remote_username => 'jeefberkey',
+#   username        => 'Nick Miller',
+#   email           => 'nick.miller@onyxpoint.com',
+# }
+
+file { "$homedir/.config":
+  ensure => directory,
+  owner  => $user,
+  group  => $group,
 }
 
 class { '::i3':
-  gaps          => true,
-  branch        => 'gaps-next',
-  user          => $user,
-  group         => $group,
-  homedir       => $homedir,
-  repo_location => "$storage_dir/i3-gaps",
+  gaps        => true,
+  branch      => 'gaps-next',
+  user        => $user,
+  group       => $group,
+  homedir     => $homedir,
+  # working_dir => $storage_dir,
 }
 
 #rvm::system_user { 'nick': }
