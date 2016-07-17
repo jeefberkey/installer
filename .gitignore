@@ -1,2 +1,4 @@
 Gemfile.lock
-.vagrant/**
+.vagrant
+modules/*
+!modules/de

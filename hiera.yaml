@@ -4,4 +4,4 @@
 :yaml:
   :datadir: ./hieradata
 :heirarchy:
-  - common
+  - default
