@@ -20,7 +20,7 @@ class git (
     require => Package['git'],
   }
   exec { 'git_config_core_editor':
-    command => 'git config --global core.editor vim',
+    command => 'git config --global core.editor nvim',
     require => Package['git'],
   }
 }

@@ -25,10 +25,8 @@ Package {
 
 $packages = [
   #base
-  'zsh','tmux','network-manager-applet','feh','lxinput','lxappearance','gtk-murrine-engine','golang','xbacklight',
+  'zsh','tmux','network-manager-applet','feh','lxinput','lxappearance','gtk-murrine-engine','golang','xbacklight','gdouros-symbola-fonts',
 
-  #lighter display maanger
-  'lightdm','lightdm-gtk-greeter-settings',
   'gtk-doc','gobject-introspection-devel','dbus-python','python-simplejson',
   'gnome-keyring-pam','libgnome-keyring-devel','gnome-tweak-tool',
 
@@ -41,11 +39,12 @@ $packages = [
 ]
 
 user { $user:
-  ensure  => present,
-  comment => 'Nick Miller',
-  home    => "/home/$user",
-  shell   => '/bin/zsh',
-  require => Package['zsh'],
+  ensure   => present,
+  comment  => 'Nick Miller',
+  home     => "/home/$user",
+  shell    => '/bin/zsh',
+  password => pw_hash('millertest','SHA-512','mysalt'),
+  require  => Package['zsh'],
 }
 file { "/home/$user":
   ensure => directory,
