@@ -2,7 +2,7 @@
 $user        = 'nick'
 $group       = 'nick'
 $homedir     = "/home/$user"
-$storage_dir = "/home/$user/config"
+$storage_dir = "/home/$user/src"
 
 # set some global resource settings
 Exec {
@@ -30,6 +30,8 @@ $packages = [
   'gtk-doc','gobject-introspection-devel','dbus-python','python-simplejson',
   'gnome-keyring-pam','libgnome-keyring-devel','gnome-tweak-tool',
 
+  'git','git-review','gitg','meld',
+  
   'cmake',
 
   #rofi
@@ -37,18 +39,6 @@ $packages = [
   'libstdc++.i686','ncurses-libs.i686','zlib.i686','libconfig-devel',
   'dbus-glib-devel', 'libXScrnSaver-devel', 'libnotify-devel', 'libxdg-basedir-devel',
 ]
-
-user { $user:
-  ensure   => present,
-  comment  => 'Nick Miller',
-  home     => "/home/$user",
-  shell    => '/bin/zsh',
-  password => pw_hash('millertest','SHA-512','mysalt'),
-  require  => Package['zsh'],
-}
-file { "/home/$user":
-  ensure => directory,
-}
 
 package { $packages:
   ensure   => latest,

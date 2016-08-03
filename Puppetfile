@@ -7,3 +7,4 @@ mod 'golja/gnupg', :latest
 mod 'maestrodev/rvm', :latest
 mod 'puppetlabs/stdlib', :latest
 mod 'puppetlabs/vcsrepo', :latest
+mod 'puppetlabs/git', :latest

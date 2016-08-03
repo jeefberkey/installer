@@ -1,3 +1,6 @@
 ---
-common:
-  - conf::git
+git::configs:
+  user.name: 'Nick Miller'
+  user.email:'nick.miller@onyxpoint.com'
+  push.default: 'simple'
+  core.editor: 'nvim'
