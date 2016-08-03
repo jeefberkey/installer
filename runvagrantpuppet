@@ -1,4 +1,0 @@
-#!/bin/bash
-
-#BUNDLE_GEMFILE=/vagrant/Gemfile /usr/local/bin/bundle exec puppet apply --modulepath=/vagrant/modules --hiera_config=/vagrant/hiera.yaml /vagrant/manifests/ --test |& tee log
-puppet apply --modulepath=/vagrant/modules --hiera_config=/vagrant/hiera.yaml /vagrant/manifests/ --test |& tee log

@@ -7,7 +7,6 @@ class de (
   AbsolutePath $userdir = "/home/nick/${::user}",
   AbsolutePath $configdir = "${::userdir}/src",
 ) {
-  include '::git'
 
   file { '/home/$user/src':
     ensure => directory,
@@ -15,4 +14,20 @@ class de (
     owner  => $user,
     group  => $group,
   }
+
+  yumrepo { 'unitedrpms':
+    enabled    => '1',
+    gpgcheck   => '1',
+    gpgkey     => 'https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-24',
+    mirrorlist => 'https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/mirrorlist_enjoy24_x86_64.txt',
+  }
+
+  include '::git'
+  include '::de::user'
+  include '::de::yadm'
+  include '::de::i3'
+  include '::de::vbox'
+  include '::de::neovim'
+  include '::de::chrome'
+  include '::de::atom'
 }
