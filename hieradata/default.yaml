@@ -6,3 +6,10 @@ git::configs:
   core.editor: 'nvim'
 
 configdir: '/home/nick/src'
+
+rvm::system_rubies:
+  'ruby-2.0'
+    default_use: true
+  'ruby-2.1'
+rvm::system_users:
+  - nick
