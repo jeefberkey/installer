@@ -1,19 +1,18 @@
-# == Class: de
 #
 class de (
-  String $user = '',
-  String $group = '',
-  String $fullname = ''
+  String $user = undef,
+  String $group = undef,
+  String $fullname = undef
 
-  String $userdir = "/home/nick/$::user",
-  String $configdir = "$::userdir/src",
+  AbsolutePath $userdir = "/home/nick/${::user}",
+  AbsolutePath $configdir = "${::userdir}/src",
 ) {
-  include 'git'
+  include '::git'
 
   file { '/home/$user/src':
     ensure => directory,
-    mode => '0644',
-    owner => $user,
-    group = $group
+    mode   => '0644',
+    owner  => $user,
+    group  => $group,
   }
 }

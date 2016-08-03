@@ -1,3 +1,4 @@
+# compile and install compton
 class de::i3::compton {
 
   ensure_packages([
@@ -20,18 +21,18 @@ class de::i3::compton {
     'asciidoc',
   ])
 
-  vcsrepo { "$src_dir/compton":
-    ensure => latest,
-    owner => $::de::owner,
-    group => $::de::group,
-    source => 'https://github.com/chjj/compton.git',
+  vcsrepo { "${src_dir}/compton":
+    ensure   => latest,
+    owner    => $::de::owner,
+    group    => $::de::group,
+    source   => 'https://github.com/chjj/compton.git',
     revision => 'master',
-    notify => Exec['compton_install']
+    notify   => Exec['compton_install'],
   }
 
   exec { 'compton_install':
-    command => 'make && make docs && sudo make install',
-    cwd => "$src_dir/compton",
+    command     => 'make && make docs && sudo make install',
+    cwd         => "${src_dir}/compton",
     refreshonly => true,
   }
 }

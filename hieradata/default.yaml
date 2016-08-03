@@ -4,3 +4,5 @@ git::configs:
   user.email:'nick.miller@onyxpoint.com'
   push.default: 'simple'
   core.editor: 'nvim'
+
+configdir: '/home/nick/src'
