@@ -22,6 +22,11 @@ class de (
     mirrorlist => 'https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/mirrorlist_enjoy24_x86_64.txt',
   }
 
+  package { 'gdm':
+    ensure => latest,
+    before => Class['::de::i3'],
+  }
+
   include '::git'
   include '::de::user'
   include '::de::yadm'

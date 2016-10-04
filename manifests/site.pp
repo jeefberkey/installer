@@ -1,8 +1,8 @@
 # global variables
 $user        = 'nick'
 $group       = 'nick'
-$homedir     = "/home/$user"
-$storage_dir = "/home/$user/src"
+$homedir     = "/home/${user}"
+$storage_dir = "/home/${user}/src"
 
 # set some global resource settings
 Exec {
@@ -25,13 +25,14 @@ Package {
 
 $packages = [
   #base
-  'zsh','tmux','network-manager-applet','feh','lxinput','lxappearance','gtk-murrine-engine','golang','xbacklight','gdouros-symbola-fonts',
+  'zsh','tmux','network-manager-applet','feh','lxinput','lxappearance','gtk-murrine-engine',
+  'golang','xbacklight','gdouros-symbola-fonts',
 
   'gtk-doc','gobject-introspection-devel','dbus-python','python-simplejson',
-  'gnome-keyring-pam','libgnome-keyring-devel','gnome-tweak-tool',
+  'gnome-keyring-pam','gnome-tweak-tool',
 
   'git','git-review','gitg','meld',
-  
+
   'cmake',
 
   #rofi
@@ -46,23 +47,23 @@ package { $packages:
 
 # install yadm, my tool of choice for configuration management
 # also clone my config repo from github using yadm
-include '::yadm'
-class { '::yadm::clone':
-  user    => $user,
-  group   => $group,
-  homedir => $homedir,
-  repo    => 'https://github.com/jeefberkey/dotfiles.git',
-}
-->
-class { '::i3':
-  gaps    => true,
-  branch  => 'gaps-next',
-  user    => $user,
-  group   => $group,
-  homedir => $homedir,
-  # working_dir => $storage_dir,
-  require => Class['::yadm::clone'],
-}
+# include '::yadm'
+# class { '::yadm::clone':
+#   user    => $user,
+#   group   => $group,
+#   homedir => $homedir,
+#   repo    => 'https://github.com/jeefberkey/dotfiles.git',
+# }
+# ->
+# class { '::i3':
+#   gaps    => true,
+#   branch  => 'gaps-next',
+#   user    => $user,
+#   group   => $group,
+#   homedir => $homedir,
+#   # working_dir => $storage_dir,
+#   require => Class['::yadm::clone'],
+# }
 
 
 # # installs git and sets up my basic --global config options
